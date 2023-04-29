@@ -1,72 +1,56 @@
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>JS Lab</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, serif;
-        }
-
-        h1 {
-            color: #0B3954;
-        }
-        
-        .green {
-        color: green;
-        }
-        
-    </style>
+    <title>Bot rozmówca</title>
 </head>
 <body>
-<div id="app">
-    <h1 id="main-header">Moja aplikacja</h1>
-    <p>To będzie gra. A oto co muszę zrobić:</p>
-    <ol>
-        <li class="boring">Nauczyć się HTML</li>
-        <li class="boring">Nauczyć się CSS</li>
-        <li>Nauczyć się JS</li>
-        <li id="super-important">Zaimplementować</li>
-    </ol>
+<div id="chat">
+    <div id="bot-message">Cześć, jak tam zajęcia z JS?</div>
 </div>
-<button type="button" onclick="removeBoringStuff()">Usuń nudne rzeczy</button>
-
-<input type="text" id="myTextField">
-<input type="checkbox" id="myCheckbox">
-<button type="button" onclick="readValues()">Odczytaj wartości</button>
+<input type="text" id="user-input" placeholder="Wpisz wiadomość...">
+<button id="send-button">Wyślij</button>
 
 <script>
-    // szukanie po identyfikatorze
-//const header = document.getElementById('main-header');
-//alert(header.innerText);
-// szukanie po selektorach (tak jak w CSS)
-//const nudy = document.querySelectorAll("#app .boring");
-//nudy.forEach(element => {
-    //alert(`Nuda: ${element.innerText}`);
-    //element.classList.remove('boring');
-//});
+    const chatBox = document.getElementById("chat");
+    const botMessage = document.getElementById("bot-message");
+    const userInput = document.getElementById("user-input");
+    const sendButton = document.getElementById("send-button");
 
-let div = document.createElement('div');
-div.classList.add('green');
-div.innerText = 'Zielony tekst (jeśli dodasz CSS)';
-document.getElementById('app').append(div); // jest też prepend
+    // tablica z trzema różnymi odpowiedziami bota
+    const botResponses = ["Super, a u Ciebie?", "Cóż, każdy ma swój gust", "W JSie najlepiej się uczyć na praktycznych przykładach"];
 
-let listItem = document.createElement('li');
-listItem.innerText = 'Zagrać';
-// dodaję na koniec listy
-document.querySelector("#app ol li:last-child").after(listItem); // jest też before
+    // wywołanie funkcji wysyłającej wiadomość po kliknięciu przycisku
+    sendButton.addEventListener("click", sendMessage);
 
-function removeBoringStuff() {
-document.querySelectorAll("#app .boring").forEach((e) => e.remove());
-}
+    // wywołanie funkcji wysyłającej wiadomość po wciśnięciu klawisza Enter w polu tekstowym
+    userInput.addEventListener("keydown", function(event) {
+        if (event.code === "Enter") {
+            sendMessage();
+        }
+    });
 
-function readValues() {
-if(myCheckbox.checked){
-alert(myTextField.value);
-}
-}
+    function sendMessage() {
+        const userMessage = userInput.value.trim();
+        if (userMessage !== "") {
+            addMessage("Ty", userMessage);
+            getBotResponse(userMessage);
+            userInput.value = "";
+        }
+    }
 
+    function getBotResponse(userMessage) {
+        // wybór losowej odpowiedzi bota z tablicy
+        const randomIndex = Math.floor(Math.random() * botResponses.length);
+        const botMessage = botResponses[randomIndex];
+        setTimeout(function() {
+            addMessage("Bot", botMessage);
+        }, 1000);
+    }
+
+    function addMessage(sender, message) {
+        const messageElement = document.createElement("div");
+        messageElement.innerHTML = "<strong>" + sender + ":</strong> " + message;
+        chatBox.appendChild(messageElement);
+    }
 </script>
 </body>
 </html>
