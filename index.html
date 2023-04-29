@@ -4,7 +4,7 @@
     <title>Bot rozmówca</title>
 </head>
 <body>
-<div>1. Cześć; 2. Jak się masz?; 3. Jakie są najlepsze książki o JS?</div>
+<div>1. Cześć; 2. Jak się masz? 3. Jakie są najlepsze książki o JS? <br></div>
 <div id="chat">
     <div id="bot-message">Cześć, jak tam zajęcia z JS?</div>
 </div>
@@ -17,17 +17,14 @@
     const userInput = document.getElementById("user-input");
     const sendButton = document.getElementById("send-button");
 
-    // słownik z wiadomościami użytkownika i odpowiadającymi im wiadomościami od bota
     const botResponses = {
         "Cześć": "Hej, co u Ciebie?",
         "Jak się masz?": "Dobrze, a Ty?",
         "Jakie są najlepsze książki o JS?": "Polecam 'JavaScript: The Definitive Guide' i 'Eloquent JavaScript'",
     };
 
-    // wywołanie funkcji wysyłającej wiadomość po kliknięciu przycisku
     sendButton.addEventListener("click", sendMessage);
 
-    // wywołanie funkcji wysyłającej wiadomość po wciśnięciu klawisza Enter w polu tekstowym
     userInput.addEventListener("keydown", function(event) {
         if (event.code === "Enter") {
             sendMessage();
