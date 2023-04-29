@@ -1,4 +1,5 @@
 <html lang="pl">
+<html>
 <head>
     <title>Bot rozmówca</title>
 </head>
@@ -15,8 +16,12 @@
     const userInput = document.getElementById("user-input");
     const sendButton = document.getElementById("send-button");
 
-    // tablica z trzema różnymi odpowiedziami bota
-    const botResponses = ["Super, a u Ciebie?", "Cóż, każdy ma swój gust", "W JSie najlepiej się uczyć na praktycznych przykładach"];
+    // słownik z wiadomościami użytkownika i odpowiadającymi im wiadomościami od bota
+    const botResponses = {
+        "Cześć": "Hej, co u Ciebie?",
+        "Jak się masz?": "Dobrze, a Ty?",
+        "Jakie są najlepsze książki o JS?": "Polecam 'JavaScript: The Definitive Guide' i 'Eloquent JavaScript'",
+    };
 
     // wywołanie funkcji wysyłającej wiadomość po kliknięciu przycisku
     sendButton.addEventListener("click", sendMessage);
@@ -38,12 +43,16 @@
     }
 
     function getBotResponse(userMessage) {
-        // wybór losowej odpowiedzi bota z tablicy
-        const randomIndex = Math.floor(Math.random() * botResponses.length);
-        const botMessage = botResponses[randomIndex];
-        setTimeout(function() {
-            addMessage("Bot", botMessage);
-        }, 1000);
+        const botMessage = botResponses[userMessage];
+        if (botMessage !== undefined) {
+            setTimeout(function() {
+                addMessage("Bot", botMessage);
+            }, 1000);
+        } else {
+            setTimeout(function() {
+                addMessage("Bot", "Nie wiem, co odpowiedzieć na to :(");
+            }, 1000);
+        }
     }
 
     function addMessage(sender, message) {
